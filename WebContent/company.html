@@ -39,7 +39,9 @@
                         <td>{{ company.country }}</td>
                         <td>{{ company.email }}</td>
                         <td>{{ company.phoneNumber }}</td>
-                        <td>{{company.owners}}</td>
+                        <td>
+                            <span ng-repeat="owner in company.owners">{{owner.name}}<br/></span>
+                        </td>
                         <td>
                             <button class="btn btn-default btn-xs btn-detail" ng-click="toggle('edit', company.id)">Edit</button>
                             <button class="btn btn-default btn-xs btn-detail" ng-click="showOwners(company.id)">Owners</button>
@@ -137,15 +139,14 @@
                                 <div class="form-group">
                                     <label for="name" class="col-sm-3 control-label">Name</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control has-error" id="name" name="name" placeholder="Name" value="{{name}}" 
-                                        ng-model="owner.name" ng-required="true">
+                                        <input type="text" class="form-control has-error" id="name" name="name" placeholder="Name" value="{{name}}" ng-model="owner.name" ng-required="true">
                                         <span class="help-inline" ng-show="frmOwners.name.$invalid && frmOwners.name.$touched">Name field is required</span>
                                     </div>
                                 </div>
                             </form>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" id="btn-save-owner" ng-click="saveOwner(company.id)" ng-disabled="frmOwners.$invalid">Save changes</button>
+                            <button type="button" class="btn btn-primary" id="btn-save-owner" ng-click="addOwnerToCompany(company.id)" ng-disabled="frmOwners.$invalid">Save changes</button>
                         </div>
                     </div>
                 </div>

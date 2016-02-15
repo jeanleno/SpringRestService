@@ -1,4 +1,4 @@
-
+var companyId = 0;
 
 app.controller('companyController', function($scope, $http, $window, $location, API_URL) {    
     
@@ -53,7 +53,7 @@ app.controller('companyController', function($scope, $http, $window, $location, 
             location.reload();
         }).error(function(response) {
             console.log(response);
-            alert('This is embarassing. An error has occured. Please check the log for details');
+            alert('This is embarassing. An error has occured.');
         });
     }
 
@@ -79,27 +79,24 @@ app.controller('companyController', function($scope, $http, $window, $location, 
     }
     
     $scope.showOwners = function(id) {
-        //$window.location.href = 'owner.html?companyId='+id;
+        companyId = id;
         $('#modalOwner').modal('show');
         
     }
     
-    $scope.saveOwner = function(id) {
-        var url = API_URL + "saveowner";
-        
-        
+    $scope.addOwnerToCompany = function() {
+        var url = API_URL + "addownertocompany/"+companyId+"/"+$scope.owner.name;
         
         $http({
-            method: 'POST',
+            method: 'GET',
             url: url,
-            data: JSON.stringify($scope.company),
             headers: {'Content-Type': 'application/json'}
         }).success(function(response) {
             console.log(response);
             location.reload();
         }).error(function(response) {
             console.log(response);
-            alert('This is embarassing. An error has occured. Please check the log for details');
+            alert('This is embarassing. An error has occured.');
         });
         
     }

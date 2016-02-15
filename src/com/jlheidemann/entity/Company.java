@@ -1,5 +1,6 @@
 package com.jlheidemann.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -81,5 +82,10 @@ public class Company {
         this.owners = owners;
     }
     
-    
+    public void addOwner(Owner owner) {
+        if (this.owners == null) {
+            this.owners = new ArrayList<>();
+        }
+        this.owners.add(owner);
+    }
 }
