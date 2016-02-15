@@ -1,8 +1,7 @@
 package com.jlheidemann.service;
 
+import com.jlheidemann.business.CompanyBusiness;
 import com.jlheidemann.entity.Company;
-import com.jlheidemann.entity.Owner;
-import java.util.ArrayList;
 import java.util.List;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,73 +18,36 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/companyservice")
 public class CompanyService {
 
-    private static final ArrayList<Company> companies = new ArrayList<>();
-    private static final ArrayList<Owner> owners = new ArrayList<>();
-    private static int companyId = 1;
-    private static int ownerId = 1;
+    private static final CompanyBusiness business = new CompanyBusiness();
 
 
     @RequestMapping(value = "/getcompany/{id}", method = RequestMethod.GET)
     public Company getCompany(@PathVariable int id) {
-        for (Company c : companies) {
-            if (c.getId() == id) {
-                return c;
-            }
-        }
-        return null;
+        return business.getCompany(id);
     }
 
     @RequestMapping(value = "/getallcompanies", method = RequestMethod.GET)
     public List<Company> getCompanies() {
-        return companies;
+        return business.getCompanies();
     }
 
     @RequestMapping(value = "editcompany/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public boolean editCompany(@PathVariable int id, @RequestBody Company company) {
-        for (Company c : companies) {
-            if (c.getId() == id) {
-                companies.remove(c);
-                break;
-            }
-        }
-        company.setId(id);
-        companies.add(company);
-        return true;
+        return business.editCompany(id, company);
     }
     
     @RequestMapping(value = "createcompany", consumes = MediaType.APPLICATION_JSON_VALUE)
     public boolean createCompany(@RequestBody Company company) {
-        company.setId(companyId);
-        companyId++;
-        companies.add(company);
-        return true;
+        return business.createCompany(company);
     }
 
     @RequestMapping(value = "deletecompany/{id}")
     public boolean deleteCompany(@PathVariable int id) {
-        for (Company c : companies) {
-            if (c.getId() == id) {
-                companies.remove(c);
-                break;
-            }
-        }
-        return true;
+        return business.deleteCompany(id);
     }
     
     @RequestMapping(value = "addownertocompany/{companyId}/{ownerName}")
     public boolean addOwnerToCompany(@PathVariable int companyId, @PathVariable String ownerName) {
-        for (Company c : companies) {
-            if (c.getId() == companyId) {
-                Owner owner = new Owner();
-                owner.setName(ownerName);
-                owner.setId(ownerId);
-                
-                ownerId++;
-                
-                c.addOwner(owner);
-                break;
-            }
-        }       
-        return true;
+        return business.addOwnerToCompany(companyId, ownerName);
     }
 }
