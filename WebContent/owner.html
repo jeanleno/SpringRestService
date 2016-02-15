@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en-US" ng-app="companyModule">
+    <head>
+        <title>Owner</title>
+        
+        <script src="lib/js/jquery-1.12.0.min.js"></script>
+        <script src="lib/js/angular.min.js"></script>
+        <script src="lib/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="lib/css/bootstrap.min.css">
+        <script src="app.js"></script>
+        <script src="owner.js"></script>
+    </head>
+    <body>
+        <h2>Owner</h2>
+        <div  ng-controller="ownerController">
+
+            <!-- Table List Owner -->
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th><button id="btn-add" class="btn btn-primary btn-xs" ng-click="toggle('add', 0)">Add New Owner</button></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="owner in owners">
+                        <td>{{  owner.id }}</td>
+                        <td>{{ owner.name }}</td>
+                        <td>
+                            <button class="btn btn-default btn-xs btn-detail" ng-click="toggle('edit', owner.id)">Edit</button>
+                            <button class="btn btn-danger btn-xs btn-delete" ng-click="confirmDelete(owner.id)">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <!-- Owner Modal Create/Edit-->
+            <div class="modal fade" id="modalOwner" tabindex="-1" role="dialog" aria-labelledby="modalOwnerLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>
+                            <h4 class="modal-title" id="modalOwnerLabel">{{form_title}}</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form name="frmOwners" class="form-horizontal" novalidate="">
+
+                                <div class="form-group">
+                                    <label for="name" class="col-sm-3 control-label">Name</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control has-error" id="name" name="name" placeholder="Name" value="{{name}}" 
+                                        ng-model="owner.name" ng-required="true">
+                                        <span class="help-inline" ng-show="frmOwners.name.$invalid && frmOwners.name.$touched">Name field is required</span>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" id="btn-save" ng-click="save(modalstate, id)" ng-disabled="frmOwners.$invalid">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

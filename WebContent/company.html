@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en-US" ng-app="companyModule">
+    <head>
+        <title>Company</title>
+        
+        <script src="lib/js/jquery-1.12.0.min.js"></script>
+        <script src="lib/js/angular.min.js"></script>
+        <script src="lib/js/angular-route.min.js"></script>
+        <script src="lib/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="lib/css/bootstrap.min.css">
+        <script src="app.js"></script>
+        <script src="company.js"></script>
+    </head>
+    <body>
+        <h2>Company</h2>
+        <div  ng-controller="companyController">
+
+            <!-- Table List Company -->
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>City</th>
+                        <th>Country</th>
+                        <th>E-mail</th>
+                        <th>Phone Number</th>
+                        <th>Owners</th>
+                        <th><button id="btn-add" class="btn btn-primary btn-xs" ng-click="toggle('add', 0)">Add New Company</button></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="company in companies">
+                        <td>{{  company.id }}</td>
+                        <td>{{ company.name }}</td>
+                        <td>{{ company.address }}</td>
+                        <td>{{ company.city }}</td>
+                        <td>{{ company.country }}</td>
+                        <td>{{ company.email }}</td>
+                        <td>{{ company.phoneNumber }}</td>
+                        <td>{{company.owners}}</td>
+                        <td>
+                            <button class="btn btn-default btn-xs btn-detail" ng-click="toggle('edit', company.id)">Edit</button>
+                            <button class="btn btn-default btn-xs btn-detail" ng-click="showOwners(company.id)">Owners</button>
+                            <button class="btn btn-danger btn-xs btn-delete" ng-click="confirmDelete(company.id)">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <!-- Company Modal Create/Edit-->
+            <div class="modal fade" id="modalCompany" tabindex="-1" role="dialog" aria-labelledby="modalCompanyLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>
+                            <h4 class="modal-title" id="modalCompanyLabel">{{form_title}}</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form name="frmCompanies" class="form-horizontal" novalidate="">
+
+                                <div class="form-group">
+                                    <label for="name" class="col-sm-3 control-label">Name</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control has-error" id="name" name="name" placeholder="Name" value="{{name}}" 
+                                        ng-model="company.name" ng-required="true">
+                                        <span class="help-inline" ng-show="frmCompanies.name.$invalid && frmCompanies.name.$touched">Name field is required</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="address" class="col-sm-3 control-label">Address</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="address" name="address" placeholder="Address" value="{{address}}" 
+                                        ng-model="company.address" ng-required="true">
+                                        <span class="help-inline" ng-show="frmCompanies.address.$invalid && frmCompanies.address.$touched">Valid Address field is required</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="city" class="col-sm-3 control-label">City</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="city" name="city" placeholder="City" value="{{city}}" 
+                                        ng-model="company.city" ng-required="true">
+                                        <span class="help-inline" ng-show="frmCompanies.city.$invalid && frmCompanies.city.$touched">Valid City field is required</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="country" class="col-sm-3 control-label">Country</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="country" name="country" placeholder="Country" value="{{country}}" 
+                                        ng-model="company.country" ng-required="true">
+                                        <span class="help-inline" 
+                                        ng-show="frmCompanies.country.$invalid && frmCompanies.country.$touched">Valid Country field is required</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="email" class="col-sm-3 control-label">Email</label>
+                                    <div class="col-sm-9">
+                                        <input type="email" class="form-control" id="email" name="email" placeholder="E-mail" value="{{email}}" 
+                                        ng-model="company.email">
+                                        <span class="help-inline" ng-show="frmCompanies.email.$invalid && frmCompanies.email.$touched">Invalid Email field</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="phoneNumber" class="col-sm-3 control-label">Phone Number</label>
+                                    <div class="col-sm-9">
+                                        <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="Phone Number" value="{{phoneNumber}}" pattern="^([0|\+[0-9]{1,5})?([1-9][0-9]{9})$" 
+                                        ng-model="company.phoneNumber" >
+                                        <span class="help-inline" ng-show="frmCompanies.phoneNumber.$invalid && frmCompanies.phoneNumber.$touched">Invalid Phone Number field</span>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" id="btn-save" ng-click="save(modalstate, id)" ng-disabled="frmCompanies.$invalid">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>      
+            
+            <div class="modal fade" id="modalOwner" tabindex="-1" role="dialog" aria-labelledby="modalOwnerLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>
+                            <h4 class="modal-title" id="modalOwnerLabel">{{form_title}}</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form name="frmOwners" class="form-horizontal" novalidate="">
+
+                                <div class="form-group">
+                                    <label for="name" class="col-sm-3 control-label">Name</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control has-error" id="name" name="name" placeholder="Name" value="{{name}}" 
+                                        ng-model="owner.name" ng-required="true">
+                                        <span class="help-inline" ng-show="frmOwners.name.$invalid && frmOwners.name.$touched">Name field is required</span>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" id="btn-save-owner" ng-click="saveOwner(company.id)" ng-disabled="frmOwners.$invalid">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
