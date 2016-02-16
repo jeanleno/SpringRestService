@@ -21,6 +21,7 @@ import org.junit.Test;
 public class CompanyBusinessTest {
     
     CompanyBusiness business;
+    Company company;
     
     public CompanyBusinessTest() {
     }
@@ -36,6 +37,11 @@ public class CompanyBusinessTest {
     @Before
     public void setUp() {
         business = new CompanyBusiness();
+        company = new Company();
+        company.setName("Company 1");
+        company.setAddress("Address 1");
+        company.setCity("City 1");
+        company.setCountry("Country 1");
     }
     
     @After
@@ -44,8 +50,28 @@ public class CompanyBusinessTest {
     }
 
     @Test
-    public void testGetCompany() {
-        boolean result = business.createCompany(new Company());
+    public void testCreateCompany() {
+        boolean result = business.createCompany(company);
+        boolean expectedResult = true;
+        
+        Assert.assertEquals(result, expectedResult);
+        
+    }
+    
+    @Test
+    public void testEditCompany() {
+        
+        boolean result = business.editCompany(1, company);
+        boolean expectedResult = true;
+        
+        Assert.assertEquals(result, expectedResult);
+        
+    }
+    
+    @Test
+    public void testDeleteCompany() {
+        
+        boolean result = business.deleteCompany(1);
         boolean expectedResult = true;
         
         Assert.assertEquals(result, expectedResult);
