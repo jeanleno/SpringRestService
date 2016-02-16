@@ -13,28 +13,28 @@ The application can be acessed from this [website][appSite] and the source code 
 0.0.1-SNAPSHOT
 
 ### cURL Examples
-Create Company
+**Create Company**
 ```sh
 curl -H "Content-Type: application/json" -X POST -d "{\"name\":\"Company1\",\"address\":\"Address1\",\"city\":\"City1\",\"country\":\"Country1\",\"email\":\"email@email.com\",\"phoneNumber\":\"1234567890\"}" http://spring-rest-jlheidemann.herokuapp.com/api/companyservice/companies
 ```
 
-Get Company
+**Get Company**
 ```sh
 curl http://spring-rest-jlheidemann.herokuapp.com/api/companyservice/companies/1
 ```
-Get All Companies
+**Get All Companies**
 ```sh
 curl http://spring-rest-jlheidemann.herokuapp.com/api/companyservice/companies
 ```
-Edit Company
+**Edit Company**
 ```sh
 curl -H "Content-Type: application/json" -X PUT -d "{\"name\":\"Company2\",\"address\":\"Address2\",\"city\":\"City2\",\"country\":\"Country2\",\"email\":\"email2@email.com\",\"phoneNumber\":\"0123456789\"}" http://spring-rest-jlheidemann.herokuapp.com/api/companyservice/companies/1
 ```
-Add Owner to Company
+**Add Owner to Company**
 ```sh
 curl -X POST http://spring-rest-jlheidemann.herokuapp.com/api/companyservice/companies/1/Owner1
 ```
-Delete Company
+**Delete Company**
 ```sh
 curl -X DELETE http://spring-rest-jlheidemann.herokuapp.com/api/companyservice/companies/1
 ```
