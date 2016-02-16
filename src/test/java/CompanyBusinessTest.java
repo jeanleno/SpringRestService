@@ -7,6 +7,7 @@ package test.java;
 
 import com.jlheidemann.business.CompanyBusiness;
 import com.jlheidemann.entity.Company;
+import java.util.List;
 import junit.framework.Assert;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -55,7 +56,6 @@ public class CompanyBusinessTest {
         boolean expectedResult = true;
         
         Assert.assertEquals(result, expectedResult);
-        
     }
     
     @Test
@@ -65,7 +65,18 @@ public class CompanyBusinessTest {
         boolean expectedResult = true;
         
         Assert.assertEquals(result, expectedResult);
-        
+    }
+    
+    @Test
+    public void testGetCompany() {        
+        Company result = business.getCompany(1);        
+        Assert.assertNotNull(result);        
+    }
+    
+    @Test
+    public void testGetCompanies() {        
+        List<Company> result = business.getCompanies();        
+        Assert.assertNotNull(result);        
     }
     
     @Test
@@ -74,7 +85,6 @@ public class CompanyBusinessTest {
         boolean result = business.deleteCompany(1);
         boolean expectedResult = true;
         
-        Assert.assertEquals(result, expectedResult);
-        
+        Assert.assertEquals(result, expectedResult);        
     }
 }
