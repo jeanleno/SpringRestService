@@ -3,7 +3,7 @@ var companyId = 0;
 app.controller('companyController', function($scope, $http, $window, $location, API_URL) {    
     
     //retrieve companies listing from API
-    $http.get(API_URL + "getallcompanies")
+    $http.get(API_URL + "companies")
             .success(function(response) {
                 $scope.companies = response;
             });
@@ -19,7 +19,7 @@ app.controller('companyController', function($scope, $http, $window, $location, 
             case 'edit':
                 $scope.form_title = "Company Detail";
                 $scope.id = id;
-                $http.get(API_URL + 'getcompany/' + id)
+                $http.get(API_URL + 'companies/' + id)
                         .success(function(response) {
                             console.log(response);
                             $scope.company = response;
@@ -35,16 +35,19 @@ app.controller('companyController', function($scope, $http, $window, $location, 
     //save new record / update existing record
     $scope.save = function(modalstate, id) {
         var url = API_URL;
+        var method;
         
         //append company id to the URL if the form is in edit mode
         if (modalstate === 'edit'){
-            url += "editcompany/" + id;
+            url += "companies/" + id;
+            method = "PUT"
         } else {
-            url += "createcompany";
+            url += "companies";
+            method = "POST"
         }
         
         $http({
-            method: 'POST',
+            method: method,
             url: url,
             data: JSON.stringify($scope.company),
             headers: {'Content-Type': 'application/json'}
@@ -63,7 +66,7 @@ app.controller('companyController', function($scope, $http, $window, $location, 
         if (isConfirmDelete) {
             $http({
                 method: 'DELETE',
-                url: API_URL + 'deletecompany/' + id
+                url: API_URL + 'companies/' + id
             }).
                     success(function(data) {
                         console.log(data);
@@ -85,10 +88,10 @@ app.controller('companyController', function($scope, $http, $window, $location, 
     }
     
     $scope.addOwnerToCompany = function() {
-        var url = API_URL + "addownertocompany/"+companyId+"/"+$scope.owner.name;
+        var url = API_URL + "companies/"+companyId+"/"+$scope.owner.name;
         
         $http({
-            method: 'GET',
+            method: 'POST',
             url: url,
             headers: {'Content-Type': 'application/json'}
         }).success(function(response) {
