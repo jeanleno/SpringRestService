@@ -29,23 +29,31 @@ public class CompanyBusiness {
     }
     
     public boolean editCompany(int id, Company company) {
-        List<Company> companies = Database.getInstance().getCompanies();
-        for (Company c : companies) {
-            if (c.getId() == id) {
-                companies.remove(c);
-                break;
+        if (isValidCompany(company)) {
+            List<Company> companies = Database.getInstance().getCompanies();
+            for (Company c : companies) {
+                if (c.getId() == id) {
+                    companies.remove(c);
+                    break;
+                }
             }
+            company.setId(id);
+            Database.getInstance().getCompanies().add(company);
+            return true;
+        } else {
+            return false;
         }
-        company.setId(id);
-        Database.getInstance().getCompanies().add(company);
-        return true;
     }
     
     public boolean createCompany(Company company) {
-        company.setId(Database.getInstance().getCompanyId());
-        Database.getInstance().incrementComapnyId();
-        Database.getInstance().getCompanies().add(company);
-        return true;
+        if (isValidCompany(company)) {
+            company.setId(Database.getInstance().getCompanyId());
+            Database.getInstance().incrementComapnyId();
+            Database.getInstance().getCompanies().add(company);
+            return true;
+        } else {
+            return false;
+        }
     }
     
     public boolean deleteCompany(int id) {
@@ -61,19 +69,40 @@ public class CompanyBusiness {
     }
     
     public boolean addOwnerToCompany(int companyId, String ownerName) {
-        List<Company> companies = Database.getInstance().getCompanies();
-        for (Company c : companies) {
-            if (c.getId() == companyId) {
-                Owner owner = new Owner();
-                owner.setName(ownerName);
-                owner.setId(Database.getInstance().getOwnerId());
-                
-                Database.getInstance().incrementOwnerId();
-                
-                c.addOwner(owner);
-                break;
-            }
-        }       
+        if (isValidOwner(companyId, ownerName)) {
+            List<Company> companies = Database.getInstance().getCompanies();
+            for (Company c : companies) {
+                if (c.getId() == companyId) {
+                    Owner owner = new Owner();
+                    owner.setName(ownerName);
+                    owner.setId(Database.getInstance().getOwnerId());
+
+                    Database.getInstance().incrementOwnerId();
+
+                    c.addOwner(owner);
+                    break;
+                }
+            }       
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    private boolean isValidCompany(Company company) {
+        if (company.getName() == null || company.getName().trim().equalsIgnoreCase("") 
+                || company.getAddress() == null || company.getAddress().trim().equalsIgnoreCase("")
+                || company.getCity() == null || company.getCity().trim().equalsIgnoreCase("")
+                || company.getCountry() == null || company.getCountry().trim().equalsIgnoreCase("")) {
+            return false;
+        }
+        return true;
+    }
+    
+    private boolean isValidOwner(int companyId, String ownerName) {
+        if (companyId <= 1 || ownerName == null || ownerName.trim().equalsIgnoreCase("")) {
+            return false;
+        }
         return true;
     }
 }

@@ -53,7 +53,11 @@ app.controller('companyController', function($scope, $http, $window, $location, 
             headers: {'Content-Type': 'application/json'}
         }).success(function(response) {
             console.log(response);
-            location.reload();
+            if (response === true) {
+                location.reload();
+            } else {
+                alert("It was not possible to create the company! Invalid parameters!")
+            }
         }).error(function(response) {
             console.log(response);
             alert('This is embarassing. An error has occured.');
@@ -70,7 +74,11 @@ app.controller('companyController', function($scope, $http, $window, $location, 
             }).
                     success(function(data) {
                         console.log(data);
-                        location.reload();
+                        if (response === true) {
+                            location.reload();
+                        } else {
+                            alert("It was not possible to delete the company! Invalid parameters!")
+                        }
                     }).
                     error(function(data) {
                         console.log(data);
@@ -96,7 +104,11 @@ app.controller('companyController', function($scope, $http, $window, $location, 
             headers: {'Content-Type': 'application/json'}
         }).success(function(response) {
             console.log(response);
-            location.reload();
+            if (response === true) {
+                location.reload();
+            } else {
+                alert("It was not possible to add owner to the company! Invalid parameters!")
+            }
         }).error(function(response) {
             console.log(response);
             alert('This is embarassing. An error has occured.');
