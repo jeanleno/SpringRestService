@@ -42,12 +42,15 @@ curl -X DELETE http://spring-rest-jlheidemann.herokuapp.com/api/companyservice/c
 ### Considerations
 **Redundance**
 
-We can make the server redundancy adding more servers, working with clusters for example. This application example does not have a database, but having multiple servers reading the same databse would be easy to have redundancy.
+We can make the server redundancy by adding more servers, working with clusters for example. This application example does not have a database, but the database alse need to have some type of redundance.
+A good redundancy can be made also hosting the application on Amazon's servers in two different areas.
+
+having multiple servers reading the same databse would be easy to have redundancy.
 
 **Authentication**
 
 Authentication can be made through the Oauth API.
-Oauth is an excellent and very safe API for authentication, which can be used in web applications, desktop and mobile devices.
+Oauth is an excellent and very safe API for authentication, which can be used in web applications, desktop and mobile devices. This API is used by large companies such as Google, Facebook, LinkedIn, etc.
 
 
 [appSite]: <https://spring-rest-jlheidemann.herokuapp.com>
